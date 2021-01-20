@@ -48,16 +48,16 @@ public class UserRepositoryImpl implements UserRepository {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public User findByEmailAndPassword(String email, String password) throws EtAuthException {
 		try {
-			@SuppressWarnings("deprecation")
 			User user = jdbcTemplate.queryForObject(SQL_FIND_BY_EMAIL, new Object[] {email}, userRowMapper);
 			if(!password.equals(user.getPassword()))
 				throw new EtAuthException("Invalid Email/Password.");
 			return user;
 		} catch (EmptyResultDataAccessException e) {
-			throw new EtAuthException("Invalid email/password.");
+			throw new EtAuthException("Invalid Email/Password.");
 		}
 	}
 
