@@ -21,6 +21,7 @@ public class UserResource {
 	@Autowired
 	UserService userService;
 	
+	@PostMapping("/login")
 	public ResponseEntity<Map<String, String>> loginUser(@RequestBody Map<String, Object> userMap) {
 		String email = (String) userMap.get("email");
 		String password = (String) userMap.get("password");
