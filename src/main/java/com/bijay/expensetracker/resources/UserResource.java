@@ -17,10 +17,10 @@ import com.bijay.expensetracker.services.UserService;
 @RestController
 @RequestMapping("/api/users")
 public class UserResource {
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, String>> loginUser(@RequestBody Map<String, Object> userMap) {
 		String email = (String) userMap.get("email");
@@ -30,7 +30,7 @@ public class UserResource {
 		map.put("message", "LoggedIn Successfully.");
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/register")
 	public ResponseEntity<Map<String, String>> registerUser(@RequestBody Map<String, Object> userMap) {
 		String firstName = (String) userMap.get("firstName");
