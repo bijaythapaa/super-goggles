@@ -14,7 +14,7 @@ public class CategoryResource {
     @GetMapping(value = "")
     public String getAllCategories(HttpServletRequest request) {
         int userId = (Integer) request.getAttribute("userId");
-        return "Authenticated! userId: '" + userId + "'";
+        return "Authenticated! userId: " + userId;
     }
 
 }
