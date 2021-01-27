@@ -1,8 +1,6 @@
 package com.bijay.expensetracker.filters;
 
 import java.io.IOException;
-import java.net.http.HttpRequest;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
