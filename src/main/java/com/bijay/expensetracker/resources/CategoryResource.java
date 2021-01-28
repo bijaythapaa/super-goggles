@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("/api/categories")
 public class CategoryResource {
 
-    @GetMapping(value = "/all")
+    @GetMapping(value = "")
     public String getAllCategories(HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
         return "Authenticated! User email: " + email;

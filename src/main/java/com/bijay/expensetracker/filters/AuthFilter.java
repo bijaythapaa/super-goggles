@@ -29,7 +29,7 @@ public class AuthFilter extends GenericFilterBean {
         String authHeader = httpRequest.getHeader("Authorization");
         if (authHeader != null) {
             // its not a convention to split authHeader using String "bearer"
-            String[] authHeaderArr = authHeader.split(" ");
+            String[] authHeaderArr = authHeader.split("Bearer");
             if (authHeaderArr.length > 1 && authHeaderArr[1] != null) {
                 String token = authHeaderArr[1];
                 try {
