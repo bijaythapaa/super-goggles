@@ -28,8 +28,8 @@ public class AuthFilter extends GenericFilterBean {
 
         String authHeader = httpRequest.getHeader("Authorization");
         if (authHeader != null) {
-            // its convention to split authHeader using String "Bearer"
-            String[] authHeaderArr = authHeader.split("Bearer");
+            // its not a convention to split authHeader using String "bearer"
+            String[] authHeaderArr = authHeader.split("bearer");
             if (authHeaderArr.length > 1 && authHeaderArr[1] != null) {
                 String token = authHeaderArr[1];
                 try {
@@ -41,8 +41,7 @@ public class AuthFilter extends GenericFilterBean {
                     return;
                 }
             } else {
-                httpResponse.sendError(HttpStatus.FORBIDDEN.value(),
-                        "Authorization token must be Bearer [token]");
+                httpResponse.sendError(HttpStatus.FORBIDDEN.value(), "Authorization token must be Bearer [token]");
                 return;
             }
         } else {

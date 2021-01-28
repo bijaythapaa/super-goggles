@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("/api/categories")
 public class CategoryResource {
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/all")
     public String getAllCategories(HttpServletRequest request) {
-        int userId = (Integer) request.getAttribute("userId");
-        return "Authenticated! userId: " + userId;
+        String email = (String) request.getAttribute("email");
+        return "Authenticated! User email: " + email;
     }
 
 }
