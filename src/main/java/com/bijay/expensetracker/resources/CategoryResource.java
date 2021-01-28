@@ -13,8 +13,8 @@ public class CategoryResource {
 
     @GetMapping(value = "")
     public String getAllCategories(HttpServletRequest request) {
-        String email = (String) request.getAttribute("email");
-        return "Authenticated! User email: " + email;
+        int userId = (Integer) request.getAttribute("userId");
+        return "Authenticated! User email: " + userId;
     }
 
 }
