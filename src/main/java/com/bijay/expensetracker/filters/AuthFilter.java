@@ -23,9 +23,11 @@ public class AuthFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
+//        type-casting these servlet request/response objects to httpservlet request/response objects.
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
+//        getting requests data from header
         String authHeader = httpRequest.getHeader("Authorization");
         if (authHeader != null) {
             // its not a convention to split authHeader using String "bearer"
