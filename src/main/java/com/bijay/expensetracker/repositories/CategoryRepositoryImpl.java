@@ -17,20 +17,29 @@ import java.util.List;
 @Repository
 public class CategoryRepositoryImpl implements CategoryRepository {
 
+    private static final String SQL_FIND_ALL = "SELECT C.CATEGORY_ID, C.USER_ID, C.TITLE, C.DESCRIPTION, " +
+            "COALESCE(SUM(T.AMOUNT), 0) TOTAL_EXPENSE " +
+            "FROM ET_TRANSACTIONS T RIGHT OUTER JOIN ET_CATEGORIES C ON C.CATEGORY_ID = T.CATEGORY_KEY " +
+            "WHERE C.USER_ID=? GROUP BY C.CATEGORY_ID";
+
     private static final String SQL_FIND_BY_ID = "SELECT C.CATEGORY_ID, C.USER_ID, C.TITLE, C.DESCRIPTION, " +
             "COALESCE(SUM(T.AMOUNT), 0) TOTAL_EXPENSE " +
-            "FROM ET_TRANSACTIONS T RIGHT OUTER JOIN ET_CATEGORIES C ON C.CATEGORY_ID = T.CATEGORY_ID " +
+            "FROM ET_TRANSACTIONS T RIGHT OUTER JOIN ET_CATEGORIES C ON C.CATEGORY_ID = T.CATEGORY_KEY " +
             "WHERE C.USER_ID=? AND C.CATEGORY_ID=? GROUP BY C.CATEGORY_ID";
 
     private static final String SQL_CREATE = "INSERT INTO ET_CATEGORIES (CATEGORY_ID, USER_ID, TITLE, DESCRIPTION)" +
             " VALUES(NEXTVAL('ET_CATEGORIES_SEQ'), ?, ?, ?)";
 
+    private static final String SQL_UPDATE = "UPDATE ET_CATEGORIES SET TITLE=?, DESCRIPTION=? " +
+            "WHERE USER_ID=? AND CATEGORY_ID=?";
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    @SuppressWarnings("deprecation")
     @Override
     public List<Category> findAll(Integer userId) throws EtResourceNotFoundException {
-        return null;
+        return jdbcTemplate.query(SQL_FIND_ALL, new Object[]{userId}, categoryRowMapper);
     }
 
     @SuppressWarnings("deprecation")
@@ -65,7 +74,12 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public void update(Integer userId, Integer categoryId, Category category) throws EtBadRequestException {
-
+        try {
+            jdbcTemplate.update(SQL_UPDATE, new Object[]{category.getTitle(), category.getDescription(),
+                    userId, categoryId});
+        } catch (Exception e) {
+            throw new EtBadRequestException("Invalid Request !!");
+        }
     }
 
     @Override
