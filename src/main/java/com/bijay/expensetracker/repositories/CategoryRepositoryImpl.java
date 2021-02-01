@@ -46,9 +46,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public Category findById(Integer userId, Integer categoryId) throws EtResourceNotFoundException {
         try {
-//            Category category = jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{userId, categoryId}, categoryRowMapper);
-//            return category;
-
             return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{userId, categoryId,}, categoryRowMapper);
         } catch (Exception e) {
             throw new EtResourceNotFoundException("Category not Found.");
