@@ -16,21 +16,26 @@ import java.util.Map;
 public class CategoryResource {
 
     @Autowired
-    private CategoryService categoryService;
+    CategoryService categoryService;
 
-    @GetMapping(value = "")
+    @GetMapping("")
     public String getAllCategories(HttpServletRequest request) {
         int userId = (Integer) request.getAttribute("userId");
         return "Authenticated! User id: " + userId;
     }
 
-    @PostMapping(value = "")
-    public ResponseEntity<Category> addCategory(HttpServletRequest request, @RequestBody Map<String, Object> categoryMap){
+    @PostMapping("")
+    public ResponseEntity<Category> addCategory(HttpServletRequest request,
+                                                @RequestBody Map<String, Object> categoryMap) {
         int userId = (Integer) request.getAttribute("userId");
         String title = (String) categoryMap.get("title");
         String description = (String) categoryMap.get("description");
         Category category = categoryService.addCategory(userId, title, description);
+
+//        ResponseEntity<Category> responseEntity = new ResponseEntity<>(category, HttpStatus.CREATED);
+//        System.out.println(responseEntity);
+//        return responseEntity;
+
         return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
-
 }

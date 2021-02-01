@@ -7,6 +7,7 @@ import com.bijay.expensetracker.exceptions.EtResourceNotFoundException;
 import java.util.List;
 
 public interface CategoryService {
+
     List<Category> fetchAllCategories(Integer userId);
 
     Category fetchCategoryById(Integer userId, Integer categoryId) throws EtResourceNotFoundException;

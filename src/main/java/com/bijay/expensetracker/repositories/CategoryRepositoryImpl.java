@@ -19,9 +19,8 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     private static final String SQL_FIND_BY_ID = "SELECT C.CATEGORY_ID, C.USER_ID, C.TITLE, C.DESCRIPTION, " +
             "COALESCE(SUM(T.AMOUNT), 0) TOTAL_EXPENSE " +
-            "FROM ET_TRANSACTIONS T RIGHT OUTER JOIN ET_CATEGORIES " +
-            "C ON C.CATEGORY_ID = T.CATEGORY_ID WHERE C.USER_ID=? AND C.CATEGORY_ID=?" +
-            "GROUP BY C.CATEGORY_ID";
+            "FROM ET_TRANSACTIONS T RIGHT OUTER JOIN ET_CATEGORIES C ON C.CATEGORY_ID = T.CATEGORY_ID " +
+            "WHERE C.USER_ID=? AND C.CATEGORY_ID=? GROUP BY C.CATEGORY_ID";
 
     private static final String SQL_CREATE = "INSERT INTO ET_CATEGORIES (CATEGORY_ID, USER_ID, TITLE, DESCRIPTION)" +
             " VALUES(NEXTVAL('ET_CATEGORIES_SEQ'), ?, ?, ?)";
@@ -34,10 +33,14 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         return null;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public Category findById(Integer userId, Integer categoryId) throws EtResourceNotFoundException {
         try {
-            return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{userId, categoryId}, categoryRowMapper);
+//            Category category = jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{userId, categoryId}, categoryRowMapper);
+//            return category;
+
+            return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{userId, categoryId,}, categoryRowMapper);
         } catch (Exception e) {
             throw new EtResourceNotFoundException("Category not Found.");
         }
@@ -47,8 +50,8 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     public Integer create(Integer userId, String title, String description) throws EtBadRequestException {
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();
-            jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
+            jdbcTemplate.update(con -> {
+                PreparedStatement ps = con.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
                 ps.setInt(1, userId);
                 ps.setString(2, title);
                 ps.setString(3, description);

@@ -1,6 +1,7 @@
 package com.bijay.expensetracker.domain;
 
 public class Category {
+
     private Integer categoryId;
     private Integer userId;
     private String title;
