@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Expense Tracker</h2>
+
+    <!-- from this script tag, we invoke our API. -->
+    <script>
+
+        // this fetch() is the Standard JS Fetch API.
+        // we need to provide auth-header as well, so pass object having header objects
+        // as second argument of fetch.
+        fetch('http://localhost:8080/api/categories', {
+            headers: { 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTIyNzYzODgsImV4cCI6MTYxMjI4MzU4OCwidXNlcklkIjoxNSwiZW1haWwiOiJiaWpheUBlbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWpheSIsImxhc3ROYW1lIjoiVGhhcGEifQ.a82H9WSQvyYULZ9D956ZzRcqCWa-bZQjcDnXkTQNxro' }
+        })
+            // call to fetch api return a Promise, and we can get response using 'then()'' function.
+            // we want response in json format.
+            .then(res => res.json())
+            // actual output comes here.
+            .then(res => console.log(res))
+            // also print error, if any occured.
+            .catch(err => console.error(err));
+
+    </script>
+</body>
+
+</html>
