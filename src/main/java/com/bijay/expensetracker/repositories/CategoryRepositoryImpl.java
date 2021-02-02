@@ -30,8 +30,13 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     private static final String SQL_CREATE = "INSERT INTO ET_CATEGORIES (CATEGORY_ID, USER_ID, TITLE, DESCRIPTION)" +
             " VALUES(NEXTVAL('ET_CATEGORIES_SEQ'), ?, ?, ?)";
 
+//    for CASCADE-DELETE for all the transactions related to categories field.
     private static final String SQL_UPDATE = "UPDATE ET_CATEGORIES SET TITLE=?, DESCRIPTION=? " +
             "WHERE USER_ID=? AND CATEGORY_ID=?";
+
+    private static final String SQL_DELETE_CATEGORY = "DELETE FROM ET_CATEGORIES WHERE USER_ID=? AND CATEGORY_ID=?";
+
+    private static final String SQL_DELETE_ALL_TRANSACTIONS = "DELETE FROM ET_TRANSACTIONS WHERE CATEGORY_KEY=?";
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -81,7 +86,14 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public void removeById(Integer userId, Integer categoryId) {
+//        first, delete related transactions.
+        this.removeAllCatTransactions(categoryId);
+        jdbcTemplate.update(SQL_DELETE_CATEGORY, new Object[]{userId, categoryId});
+    }
 
+//    for deleting the transactions related to a particular category.
+    private void removeAllCatTransactions(Integer categoryId) {
+        jdbcTemplate.update(SQL_DELETE_ALL_TRANSACTIONS, new Object[]{categoryId});
     }
 
     private RowMapper<Category> categoryRowMapper = ((rs, rowNum) -> {
