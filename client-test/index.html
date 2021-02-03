@@ -4,11 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Expense Tracker API</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="categories.js"></script>
 </head>
 
 <body>
     <h2>Expense Tracker</h2>
+    <div>
+        <p class="expCategoryId">CategoryId: </p>
+        <p class="expUserId">UserId: </p>
+        <p class="expTitle">Title: </p>
+        <p class="expDescription">Description: </p>
+        <p class="expTotalExpense">Totale Expense: </p>
+    </div>
+
+
 
     <!-- from this script tag, we invoke our API. -->
     <script>
@@ -17,7 +28,9 @@
         // we need to provide auth-header as well, so pass object having header objects
         // as second argument of fetch.
         fetch('http://localhost:8080/api/categories', {
-            headers: { 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTIyNzYzODgsImV4cCI6MTYxMjI4MzU4OCwidXNlcklkIjoxNSwiZW1haWwiOiJiaWpheUBlbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWpheSIsImxhc3ROYW1lIjoiVGhhcGEifQ.a82H9WSQvyYULZ9D956ZzRcqCWa-bZQjcDnXkTQNxro' }
+            headers: {
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTIzNDYzMzYsImV4cCI6MTYxMjM1MzUzNiwidXNlcklkIjoxNSwiZW1haWwiOiJiaWpheUBlbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWpheSIsImxhc3ROYW1lIjoiVGhhcGEifQ.NiyUzVeXEcm4Myrfdu82L-7WZJXEBjdLIYnARinp6VE'
+            }
         })
             // call to fetch api return a Promise, and we can get response using 'then()'' function.
             // we want response in json format.
