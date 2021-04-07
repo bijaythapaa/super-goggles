@@ -30,12 +30,12 @@ public class AuthFilter extends GenericFilterBean {
 //        getting requests data from header
         String authHeader = httpRequest.getHeader("Authorization");
         if (authHeader != null) {
-            // its not a convention to split authHeader using String "bearer"
+            // its just a convention to split authHeader using String "Bearer"
             String[] authHeaderArr = authHeader.split("Bearer");
             if (authHeaderArr.length > 1 && authHeaderArr[1] != null) {
                 String token = authHeaderArr[1];
                 try {
-                    Claims claims = Jwts.parser().setSigningKey(Constants.API_SECTET_KEY).parseClaimsJws(token)
+                    Claims claims = Jwts.parser().setSigningKey(Constants.API_SECRET_KEY).parseClaimsJws(token)
                             .getBody();
                     httpRequest.setAttribute("userId", Integer.parseInt(claims.get("userId").toString()));
                 } catch (Exception e) {

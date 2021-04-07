@@ -46,7 +46,7 @@ public class UserResource {
 
 	private Map<String, String> generateJWTToken(User user) {
 		long timestamp = System.currentTimeMillis();
-		String token = Jwts.builder().signWith(SignatureAlgorithm.HS256, Constants.API_SECTET_KEY)
+		String token = Jwts.builder().signWith(SignatureAlgorithm.HS256, Constants.API_SECRET_KEY)
 				.setIssuedAt(new Date(timestamp)).setExpiration(new Date(timestamp + Constants.TOKEN_VALIDITY))
 				.claim("userId", user.getUserId()).claim("email", user.getEmail())
 				.claim("firstName", user.getFirstName()).claim("lastName", user.getLastName()).compact();
