@@ -3,7 +3,7 @@ $(document).ready(function () {
         type: "GET",
         url: "http://localhost:8080/api/categories/",
         headers: {
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MTIzNDYzMzYsImV4cCI6MTYxMjM1MzUzNiwidXNlcklkIjoxNSwiZW1haWwiOiJiaWpheUBlbWFpbC5jb20iLCJmaXJzdE5hbWUiOiJCaWpheSIsImxhc3ROYW1lIjoiVGhhcGEifQ.NiyUzVeXEcm4Myrfdu82L-7WZJXEBjdLIYnARinp6VE',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjE5MDA1NjIsImV4cCI6MTcyMTkwNDE2MiwidXNlcklkIjo2LCJlbWFpbCI6ImJpamF5dGhhcGFAZ21haWwuY29tIiwiZmlyc3ROYW1lIjoiYmlqYXkiLCJsYXN0TmFtZSI6InRoYXBhIn0.TPCZJzPQJDtk-jIh6i4LRukwv6xLf-rjbaqED-Zg9II',
         },
         dataType: 'json',
     }).then(function (data) {

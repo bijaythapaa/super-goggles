@@ -1,6 +1,7 @@
 package com.bijay.expensetracker.filters;
 
 import java.io.IOException;
+import java.util.Date;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -26,19 +27,23 @@ public class AuthFilter extends GenericFilterBean {
 //        type-casting these servlet request/response objects to httpservlet request/response objects.
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
+        System.out.println("******* JWT Validation Started *******");
 
 //        getting requests data from header
         String authHeader = httpRequest.getHeader("Authorization");
-        if (authHeader != null) {
+        System.out.println("authHeader = " + authHeader);
+        if (authHeader != null && authHeader.startsWith("Bearer")) {
             // its just a convention to split authHeader using String "Bearer"
             String[] authHeaderArr = authHeader.split("Bearer");
             if (authHeaderArr.length > 1 && authHeaderArr[1] != null) {
                 String token = authHeaderArr[1];
                 try {
-                    Claims claims = Jwts.parser().setSigningKey(Constants.API_SECRET_KEY).parseClaimsJws(token)
-                            .getBody();
+                    Claims claims = Jwts.parser().setSigningKey(Constants.API_SECRET_KEY).parseClaimsJws(token).getBody();
+
+                    claims.getExpiration().before(new Date());
                     httpRequest.setAttribute("userId", Integer.parseInt(claims.get("userId").toString()));
                 } catch (Exception e) {
+                    e.printStackTrace();
                     httpResponse.sendError(HttpStatus.FORBIDDEN.value(), "invalid/expired token");
                     return;
                 }
@@ -51,6 +56,10 @@ public class AuthFilter extends GenericFilterBean {
             return;
         }
         chain.doFilter(request, response);
+    }
+
+    public boolean checkUserValidity(Claims claims) {
+        return true;
     }
 
 }

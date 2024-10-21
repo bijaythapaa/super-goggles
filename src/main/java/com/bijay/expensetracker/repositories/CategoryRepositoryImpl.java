@@ -10,6 +10,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -29,6 +30,8 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     private static final String SQL_CREATE = "INSERT INTO ET_CATEGORIES (CATEGORY_ID, USER_ID, TITLE, DESCRIPTION)" +
             " VALUES(NEXTVAL('ET_CATEGORIES_SEQ'), ?, ?, ?)";
+
+    private static final String SQL_CREATE_MSQL = "INSERT INTO ET_CATEGORIES (USER_ID, TITLE, DESCRIPTION) VALUES(?, ?, ?)";
 
 //    for CASCADE-DELETE for all the transactions related to categories field.
     private static final String SQL_UPDATE = "UPDATE ET_CATEGORIES SET TITLE=?, DESCRIPTION=? " +
@@ -62,13 +65,15 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(con -> {
-                PreparedStatement ps = con.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
+//                PreparedStatement ps = con.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement ps = con.prepareStatement(SQL_CREATE_MSQL, Statement.RETURN_GENERATED_KEYS);
                 ps.setInt(1, userId);
                 ps.setString(2, title);
                 ps.setString(3, description);
                 return ps;
             }, keyHolder);
-            return (Integer) keyHolder.getKeys().get("CATEGORY_ID");
+//            return (Integer) keyHolder.getKeys().get("CATEGORY_ID");
+            return ((BigInteger) keyHolder.getKeys().get("GENERATED_KEY")).intValue();
         } catch (Exception e) {
             throw new EtBadRequestException("Invalid Request.");
         }
